@@ -16,7 +16,7 @@ Get ready to embark on this exciting journey into the world of TDA.
 
 > ## Prerequisites
 >
-> Before diving into this lesson, it is essential to have a working understanding of the **Bash shell** and the **language Python**. If you are not already familiar with these programming languages, we recommend completing the [Introduction to the Command Line for Pangenomics](https://czirion.github.io/shell-pangenomics/) and [Introduction to Python] (https://czirion.github.io/pangenomics-python/).
+> Before diving into this lesson, it is essential to have a working understanding of the **Bash shell** and the **language Python**. If you are not already familiar with these programming languages, we recommend completing the [Introduction to the Command Line for Pangenomics](https://czirion.github.io/shell-pangenomics/) and [Introduction to Python](https://czirion.github.io/pangenomics-python/).
   
 {: .prereq}
 
