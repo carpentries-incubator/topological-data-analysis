@@ -13,7 +13,7 @@ The main objects in TDA are called simplicial complexes and are a generalization
 
 We will begin by exploring the basic concepts of TDA and the computational tools that allow us to use TDA.
 
-In the following chapters, we will delve into the mini Streptococcus database used in the Pangenome Analysis in Prokaryotes lesson to reconstruct a pangenome using simplicial persistence techniques. This will help us identify gene families. In the subsequent lesson, the phenomenon of horizontal gene transfer is studied by searching for 1-holes using two different simplicial complexes.
+In the following chapters, we will delve into the mini *Streptococcus* database used in the [Pangenome Analysis in Prokaryotes lesson](https://paumayell.github.io/pangenomics/04-sequence_distance/index.html) to reconstruct a pangenome using simplicial persistence techniques. This will help us identify gene families. In the subsequent lesson, the phenomenon of horizontal gene transfer is studied by searching for 1-holes using two different simplicial complexes.
 
 One of the key highlights of this course is the opportunity to explore how to apply TDA methods to Comparative Genomics analyzes.
 
