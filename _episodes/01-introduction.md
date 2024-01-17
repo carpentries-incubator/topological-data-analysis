@@ -8,6 +8,7 @@ objectives:
 - "Understand that simplices comprise vertices, edges, triangles, and higher dimensions structures."
 keypoints:
 - "TDA describes data forms."
+- "Persistence homology detects n-holes."
 math: true
 ---
 
