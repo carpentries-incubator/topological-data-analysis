@@ -373,7 +373,7 @@ The text content is then loaded into a NumPy array using `np.loadtxt()`. The `co
 Finally, we visualize the loaded data by plotting the points using `plt.scatter()`. The `data[:, 0]` and `data[:, 1]` select the first and second columns of the data array, representing the x and y coordinates respectively. The `marker='.'` specifies the marker style as a dot, and `s=1` sets the marker size. The points are then displayed using `plt.show()`.
 ~~~
 # Load the file spiral_2d.csv from the specified URL
-url = 'https://raw.githubusercontent.com/paumayell/pangenomics/gh-pages/files/spiral_2d.csv'
+url = 'https://raw.githubusercontent.com/paumayell/topological-data-analysis/gh-pages/files/spiral_2d.csv'
 
 # Get the content of the file
 response = requests.get(url)
