@@ -11,6 +11,7 @@ objectives:
 - "Explore the change of gene families by varying the distance parameter"
 keypoints:
 - "Pangenomes can be described using TDA"
+- "Persistence simplices are related to the families of a Pangenome"
 ---
 
 ## Persistent approach to pangenomics
