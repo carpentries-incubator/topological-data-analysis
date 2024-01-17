@@ -1,11 +1,14 @@
 ---
-title: "TDA in Pangenomes"
+title: "Persistence Simplices  gives rise to Pangenomes"
 teaching: 30
 exercises: 15
 questions:
-- "How can I apply TDA to describe Pangenomes"
+- "How can I apply TDA to describe Pangenomes?"
+- "How can be related persistence simplices to functional families?"
 objectives:
 - "Describe Pangenomes using Gudhi"
+- "Finding persistence families of genes"
+- "Explore the change of gene families by varying the distance parameter"
 keypoints:
 - "Pangenomes can be described using TDA"
 ---
