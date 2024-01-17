@@ -1,5 +1,5 @@
 ---
-title: "Horizontal Gene Transfer is related to 1-holes"
+title: "Finding 1-holes"
 teaching: 30
 exercises: 15
 questions:
