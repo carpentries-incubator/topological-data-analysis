@@ -1,13 +1,14 @@
 ---
-title: "Examples TDA in genomics "
+title: "Horizontal Gene Transfer is related to 1-holes"
 teaching: 30
 exercises: 15
 questions:
-- "How can I apply TDA to describe Pangenomes"
+- "How 1-holes are related to HGT?"
 objectives:
-- "Describe Pangenomes using Gudhi"
+- "Compute the Hamming matrix for applying Persistent Homology."
+- "Construct a median complex to detect 1-holes"
 keypoints:
-- "Pangenomes can be described using TDA"
+- "Horizontal Gene Transfer (HGT) is a phenomenon where a bacterium transfers genetic material to another that is not from its family."
 ---
 
 ### **1. Library**
