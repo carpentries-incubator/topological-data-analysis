@@ -7,7 +7,7 @@ questions:
 objectives:
 - "Describe Pangenomes using Gudhi"
 keypoints:
-- "The mediam complex"
+- "Pangenomes can be described using TDA"
 ---
 
 ### **1. Library**
@@ -29,6 +29,98 @@ from Bio.Phylo import draw
 ~~~
 {: .language-python}
 
+### Funtions
+We  define funtions
+
+
+~~~
+##Calcula la secuencia media a partiar de secuencias
+def compute_median_sequence(a, b, c):
+    median = ""
+    for i in range(len(a)):
+        counts = {'0': 0, '1': 0}
+        counts[a[i]] += 1
+        counts[b[i]] += 1
+        counts[c[i]] += 1
+        majority = max(counts, key=counts.get)
+        median += majority
+    return median
+##Calcula la secuencia media a partiar de vectores
+def compute_median_vector(a, b, c):
+    a = np.array(a)
+    b = np.array(b)
+    c = np.array(c)
+    median = np.zeros_like(a)
+    for i in range(len(a)):
+        counts = np.bincount([a[i], b[i], c[i]])
+        majority = np.argmax(counts)
+        median[i] = majority
+    return median.tolist()
+##Crea un nuevo diccionario, a partir del anterior, y le agrega los puntos medios
+def process_dict_elements(dictionary):
+    keys = list(dictionary.keys())
+    result = {}
+    for combination in combinations(keys, 3):
+        a, b, c = combination
+        median = compute_median_vector(dictionary[a], dictionary[b], dictionary[c])
+        new_key = f"{a}_{b}_{c}"  # Clave nueva basada en la combinación de claves originales
+        result[new_key] = median
+    dictionary.update(result)  # Agregar las medianas calculadas al diccionario original
+    return dictionary
+##calcula la matriz de distancia a partir de un dataframe
+def distancia(df,metrica='hamming'):
+    distances = pdist(df.values.T, metric=metrica)
+    distance_matrix = squareform(distances)
+    return(distance_matrix)
+##Calcula el comprejo de Rips y regresa la persistencia.
+def complejo(distance_matrix):
+# Create the simplicial complex from the distance matrix
+    rips_complex = gd.RipsComplex(distance_matrix)
+    simplex_tree = rips_complex.create_simplex_tree(max_dimension=3)
+# Compute persistence
+    persistence = simplex_tree.persistence()
+    return(persistence)
+
+
+def hamming_distance(string1: str, string2: str) -> int:
+    """Return the Hamming distance between two strings."""
+    if len(string1) != len(string2):
+        raise ValueException("Strings must be of equal length.")
+    dist_counter = 0
+    for n in range(len(string1)):
+        if string1[n] != string2[n]:
+            dist_counter += 1
+    return dist_counter
+
+def plot_cladogram(data):
+    # Convert the dictionary into a matrix
+    matrix = np.array([list(value) for value in data.values()])
+
+    # Calculate the distance matrix
+    dist_matrix = sch.distance.pdist(matrix)
+
+    # Perform hierarchical clustering
+    linkage_matrix = sch.linkage(dist_matrix)
+
+    # Plot the dendrogram
+    plt.figure(figsize=(8, 6))
+    dendrogram = sch.dendrogram(linkage_matrix, labels=list(data.keys()), orientation='right')
+
+    # Adjust the margins and labels of the x-axis
+    plt.subplots_adjust(bottom=0.1)
+    plt.xticks(rotation='vertical')
+
+    # Show the cladogram
+    plt.show()
+
+def crear_archivo_txt(diccionario):
+    with open('genomas.fa', 'w') as archivo:
+        for clave, valores in diccionario.items():
+            archivo.write(">" + clave + "\n")  # Escribe la clave con ">" al inicio
+            cadena_valores = ''.join(str(valor) for valor in valores)  # Concatena los elementos de la lista
+            archivo.write(cadena_valores + "\n")  # Escribe la cadena de valores    
+~~~
+{: .language-python}
 
 ### Example 1: From book
 ~~~
@@ -48,11 +140,11 @@ Gen2	0	0	1	1
 ~~~
 {: .output}
 
-The distance function takes a DataFrame df and an optional parameter metrica (defaulting to 'hamming').
+The distancia function takes a DataFrame df and an optional parameter metrica (defaulting to 'hamming').
 
 The resulting distance_matrix can be used for further analysis, such as clustering or dimensionality reduction, to explore the relationships and similarities between the variables/columns of the DataFrame. 
 ~~~
-def distance(df, metrica='hamming'):
+def distancia(df, metrica='hamming'):
     # Compute pairwise distances between columns of the DataFrame
     distances = pdist(df.values.T, metric=metrica)
     
@@ -64,8 +156,8 @@ def distance(df, metrica='hamming'):
 {: .language-python}
 Calculate 
 ~~~
-matrix_distance_1=distance(df_1)
-matrix_distance_1
+matrix_distancia_1=distancia(df_1)
+matrix_distancia_1
 ~~~
 {: .language-python}
 
@@ -91,9 +183,9 @@ def complejo(distance_matrix):
 ~~~
 {: .language-python}
 
-we used the previous function and calculate de persistence and plot
+we used the previosuly function and calcultate de persitence and plot
 ~~~
-persistence_1=complejo(matrix_distance_1)
+persistence_1=complejo(matrix_dintancia_1)
 gd.plot_persistence_barcode(persistence_1)
 ~~~
 {: .language-python}
@@ -101,7 +193,7 @@ gd.plot_persistence_barcode(persistence_1)
   <img src="../fig/tda_11_barcode_1.png" alt="Persistence Barcode" width="50%" height="auto" />
   </a>
 ~~~
-gd.plot_persistence_diagram(persistence_1,legend=True)
+gd.plot_persistence_diagram(persistence_libro,legend=True)
 ~~~
 {: .language-python}
 <a href="../fig/tda_11_diagram_1.png">
@@ -116,7 +208,7 @@ In this example, we want to use Topological Data Analysis to detect if there is 
 
 First, let's import the file `familias_mini.csv` which contains a table of gene presence and absence in 4 _Streptococcus_ genomes.
 ~~~
-df = pd.read_csv("https://raw.githubusercontent.com/paumayell/pangenomics/gh-pages/files/familias_minis.csv", index_col=0)
+df = pd.read_csv("https://raw.githubusercontent.com/paumayell/topological-data-analysis/gh-pages/files/familias_minis.csv", index_col=0)
 
 df_filled = df.fillna(0)
 df=df_filled.replace(to_replace=r'.+', value=1, regex=True)
@@ -145,7 +237,7 @@ A909|MGIDGNCP_00405	1	1	1	1
 
 Now we will use the file 'minigenomes_allig.fasta,' which contains the sequence of the previously aligned genomes, to build a phylogenetic tree among them.
 ~~~
-url = "https://raw.githubusercontent.com/paumayell/pangenomics/gh-pages/files/minigenomes_allig.fasta"
+url = "https://github.com/paumayell/topological-data-analysis/blob/gh-pages/files/minigenomes_allig.fasta"
 response = requests.get(url)
 response.raise_for_status()  # Check if any errors occurred during the download
 # Save the downloaded content to a local file
@@ -173,8 +265,8 @@ draw(upgma_tree)
 The phylogenetic tree groups the genomes into pairs, which does help infer whether horizontal gene transfer occurred at some point during evolution among these species. Next, we will use persistent homology to try to detect this by identifying 1-hole structures.
 
 ~~~
-matrix_distance_genes=distance(df)
-persistence_genes=complejo(matrix_distance_genes)
+matrix_distancia_genes=distancia(df)
+persistence_genes=complejo(matrix_distancia_genes)
 gd.plot_persistence_barcode(persistence_genes)
 ~~~
 {: .language-python}
@@ -184,7 +276,7 @@ gd.plot_persistence_barcode(persistence_genes)
 
 In the persistence barcode code, we did not detect any 1-hole structures. We can explore various strategies to try to detect this.
 
-### Select by groups.
+### Select by triplets.
 We start select the first four genes and repeat the previous calculations.
 The first 4 rows of the DataFrame df are selected, and their pairwise distances are used to create a simplicial complex. The persistence of this complex is then computed, and a persistence barcode plot is generated to visualize the topological features and their lifespans.
 
@@ -192,11 +284,11 @@ The first 4 rows of the DataFrame df are selected, and their pairwise distances 
 # Select the first 4 rows of the DataFrame 'df' and assign it to 'df_primera'
 df_primera = df.iloc[:4, :]
 
-# Compute the distance matrix using the 'distance' function on 'df_primera'
-matrix_distance_genes_primera = distance(df_primera)
+# Compute the distance matrix using the 'distancia' function on 'df_primera'
+matrix_distancia_genes_primera = distancia(df_primera)
 
-# Compute the persistence of the simplicial complex created from 'matrix_distance_genes_primera'
-persistence_genes_primera = complejo(matrix_distance_genes_primera)
+# Compute the persistence of the simplicial complex created from 'matrix_distancia_genes_primera'
+persistence_genes_primera = complejo(matrix_distancia_genes_primera)
 
 # Plot the persistence barcode using the 'plot_persistence_barcode' function from the Gudhi library
 gd.plot_persistence_barcode(persistence_genes_primera)
@@ -224,7 +316,7 @@ A909|MGIDGNCP_00405	1	1	1	1
 ~~~
 {: .output}
 ~~~
-matrix_dintancia_genes_segunda=distance(df_segunda)
+matrix_dintancia_genes_segunda=distancia(df_segunda)
 persistence_genes_segunda=complejo(matrix_dintancia_genes_segunda)
 gd.plot_persistence_barcode(persistence_genes_segunda)
 ~~~
@@ -233,30 +325,15 @@ gd.plot_persistence_barcode(persistence_genes_segunda)
   <img src="../fig/tda_11_barcode_5.png" alt="Persistence Barcode" width="50%" height="auto" />
 </a>
 
-In this selection, we did not detect any holes today, but we need to find a more accurate way than selecting groups of genomes. In this sense, explore the following method for me.
+In this selection, we do not detect this 1-hole.
 
-### **The mediam complex**
-
-The median complex is an alternative construction on sequence data aimed at recovering signal of phylogenetic incompatibility using homology. First, we define the median of a set of aligned sequences.
-
-Definition:  For any three aligned sequences $a$, $b$, and $c$,
-the median sequence $m(a, b, c)$ is defined such that each position of the median is the majority consensus of the three
-sequences.
-Next, we define the median closure. Given an alignment S, the median closure, $S̄$, is defined as the vertex set generated from the original set S that is closed under the median operation
-
-We obtain the median closure by repeatedly applying the
-median operation to all sequence triplets until no new sequences are added. The median closure consists of the original vertex set augmented by the computed medians. We informally refer to topological complexes formed from the median closure as median complexes. We can then compute persistent homology on the new vertex set.
+### The mediam complex
 ~~~
-# Create a dictionary for each genome converted to "0" and "1" representing the presence and absence of genes
-genomes = {}
-
-# Iterate over each column in the DataFrame
-for column in df.columns:
-    # Convert the column values to a NumPy array and store it as a list in the dictionary
-    genomes[column] = list(np.array(df[column]))
-
-# Print the genomes dictionary
-genomes
+#crear un diccionario de cada genoma convertivo a "0" y "1" de presencia y auscnia de genes
+genomas = {}
+for columna in df.columns:
+    genomas[columna] = list(np.array(df[columna]))
+genomas
 ~~~
 {: .language-python}
 ~~~
@@ -267,65 +344,9 @@ genomes
 ~~~
 {: .output}
 
-Now, using persistent homology on the 'median complex', let's define the following functions that allow us to calculate it
 ~~~
-# Calculate the median sequence from vectors
-def compute_median_vector(a, b, c):
-    # Convert the input vectors to NumPy arrays
-    a = np.array(a)
-    b = np.array(b)
-    c = np.array(c)
-
-    # Create an array of zeros with the same shape as 'a'
-    median = np.zeros_like(a)
-
-    # Iterate over each index of the vectors
-    for i in range(len(a)):
-        # Count the occurrences of each element at index 'i' in the three vectors
-        counts = np.bincount([a[i], b[i], c[i]])
-
-        # Find the element with the highest count
-        majority = np.argmax(counts)
-
-        # Set the median value at index 'i' to the majority element
-        median[i] = majority
-
-    # Convert the median NumPy array to a list and return it
-    return median.tolist()
-
-~~~
-{: .language-python}
-
-~~~
-# Create a new dictionary based on the previous one and add the median vectors
-def process_dict_elements(dictionary):
-    keys = list(dictionary.keys())  # Get the keys of the dictionary
-    result = {}  # Initialize an empty dictionary to store the results
-    for combination in combinations(keys, 3):  # Iterate over all combinations of 3 keys
-        a, b, c = combination  # Extract the three keys from the combination
-        median = compute_median_vector(dictionary[a], dictionary[b], dictionary[c])  # Compute the median vector
-        new_key = f"{a}_{b}_{c}"  # Create a new key based on the combination of original keys
-        result[new_key] = median  # Add the median vector to the result dictionary with the new key
-    dictionary.update(result)  # Add the calculated medians to the original dictionary
-    return dictionary
-~~~
-{: .language-python}
-
-Now lets run the function on genomes 
-~~~
-genomes_mediam=process_dict_elements(genomes)
-genomes_mediam
-~~~
-{: .language-python}
-
-
-~~~
-# Create a DataFrame from the dictionary 'genomes_mediam' and assign it to 'df_mediam'
-df_mediam = pd.DataFrame.from_dict(genomes_mediam)
-
-# Print the DataFrame 'df_mediam'
-df_mediam
-
+genomas_mediam=process_dict_elements(genomas)
+genomas_mediam
 ~~~
 {: .language-python}
 ~~~
@@ -340,14 +361,10 @@ df_mediam
 ~~~
 {: .output}
 
-This following code creates a `DataFrame` called df_mediam using the `pd.DataFrame.from_dict()` function. The genomes_mediam dictionary is used as the input, and the function converts it into a DataFrame format. The resulting DataFrame is then assigned to the variable `df_mediam`. Finally, the code prints the contents of the DataFrame `df_mediam`.
+
 ~~~
-# Create a DataFrame from the dictionary 'genomes_mediam' and assign it to 'df_mediam'
-df_mediam = pd.DataFrame.from_dict(genomes_mediam)
-
-# Print the DataFrame 'df_mediam'
+df_mediam = pd.DataFrame.from_dict(genomas_mediam)
 df_mediam
-
 ~~~
 {: .language-python}
 ~~~
@@ -359,17 +376,10 @@ df_mediam
 ~~~
 {: .output}
 
-
 ~~~
-# Calculate the extended distance matrix using the function 'distance' with 'df_mediam' as input
-matrix_distance_extendida = distance(df_mediam)
-
-# Create the extended persistence complex using the function 'complejo' with 'matrix_distance_extendida' as input
-persistence_extendida = complejo(matrix_distance_extendida)
-
-# Print the extended distance matrix 'matrix_distance_extendida'
-matrix_distance_extendida
-
+matrix_dintancia_extendida=distancia(df_mediam)
+persistence_extendida=complejo(matrix_dintancia_extendida)
+matrix_dintancia_extendida
 ~~~
 {: .language-python}
 ~~~
@@ -408,9 +418,9 @@ gd.plot_persistence_diagram(persistence_extendida,legend=True)
   <img src="../fig/tda_11_diagram_3.png" alt="Persistence Diagram" width="50%" height="auto" />
 </a>
 
-## Explore this code
+## Method 2
 
-This code attempts to generate a pangenome with a specified percentage of core/shell/cloud gene families. Nevertheless, caution is recommended because, in a real pangenome, data should have a more hierarchical structure. This is temporary data to exemplify TDA concepts.
+This code attempts to generate a pangenome with an specified percentage of core/shell/cloud gene families. Neverthelles caiution is recommended because in a real pangenome, data should have more hierarchical structure. This is temporary data to exemplify TDA concepts.
 ~~~
 import pandas as pd
 import numpy as np
@@ -470,4 +480,3 @@ for _ in range(n):
 print(df)
 ~~~
 {: .python}
-
