@@ -13,7 +13,7 @@ keypoints:
 ## Persistent approach to pangenomics
 
 
-We will work with the four mini-genomes of episode 4. First, we need to import all the libraries that we will use.
+We will work with the four mini-genomes of episode [Measuring Sequence Similarity](https://paumayell.github.io/pangenomics/04-sequence_distance/index.html). First, we need to import all the libraries that we will use.
 
 ~~~
 import pandas as pd
@@ -25,11 +25,11 @@ import os
 ~~~
 {: .language-python}
 
-Now, we need to read the `mini-genomes.blast` file that we produced in the episode of [Understanding Pangenomes with BLAST](https://paumayell.github.io/pangenomics/04-manual-pangenomes/index.html). 
+Now, we need to read the `mini-genomes.blast` file that we produced in the episode of [Measuring Sequence Similarity](https://paumayell.github.io/pangenomics/04-sequence_distance/index.html). 
 
 ~~~
 
-url = "https://raw.githubusercontent.com/paumayell/pangenomics/gh-pages/files/mini-genomes.blast"
+url = "https://raw.githubusercontent.com/paumayell/topological-data-analysis/gh-pages/files/mini-genomes.blast"
 blastE = pd.read_csv(url, sep='\t', names=['qseqid', 'sseqid', 'evalue'])
  
 ~~~
@@ -91,7 +91,7 @@ distance_list.head()
 ~~~
 {: .output}
 
-As we saw in episode [Understanding Pangenomes with BLAST](https://paumayell.github.io/pangenomics/04-manual-pangenomes/index.html), the BLAST E-value represents the possibility of finding a match with a similar score in a database. By default, BLAST considers a maximum score for the E-value 10, but in this case, there are hits of low quality. If two sequences are not similar or if the E-value is bigger than 10, then BLAST does not save this score. In order to have something like a distance matrix we will fill the E-value of the sequence for which we do not have a score. To do this, we will use the convention that an E-value equal to 5 is too big and that the sequences are not similar at all. 
+As we saw in episode [Measuring Sequence Similarity](https://paumayell.github.io/pangenomics/04-sequence_distance/index.html), the BLAST E-value represents the possibility of finding a match with a similar score in a database. By default, BLAST considers a maximum score for the E-value 10, but in this case, there are hits of low quality. If two sequences are not similar or if the E-value is bigger than 10, then BLAST does not save this score. In order to have something like a distance matrix we will fill the E-value of the sequence for which we do not have a score. To do this, we will use the convention that an E-value equal to 5 is too big and that the sequences are not similar at all. 
 
 ~~~
 MaxDistance = 5.0000000
@@ -168,7 +168,7 @@ array([[1.24e-174, 5.00e+000, 5.00e+000, ..., 5.00e+000, 5.00e+000,
 {: .output}
 
 
-Now, we want to construct the Vietoris-Rips complex associated with the genes with respect to the distance matrix that we obtained. In the episode [Topological Data Analysis](https://paumayell.github.io/pangenomics/08-tda/index.html) we saw that to construct the Vietoris-Rips complex we need to define a distance parameter or threshold, so the points within a distance less than or equal to the threshold get connected in the complex. The  threshold is defined by the argument `max_edge_length`, and we will use here the value 2.
+Now, we want to construct the Vietoris-Rips complex associated with the genes with respect to the distance matrix that we obtained. In the episode [Introduction Topological Data Analysis](https://paumayell.github.io/topological-data-analysis/01-introduction/index.html) we saw that to construct the Vietoris-Rips complex we need to define a distance parameter or threshold, so the points within a distance less than or equal to the threshold get connected in the complex. The  threshold is defined by the argument `max_edge_length`, and we will use here the value 2.
 
 ~~~
 max_edge_length = 2
@@ -524,7 +524,7 @@ If we filter at `t_death=2`we can see only the families that we remain with in t
 {: .challenge}
 
 > ## Excercise 2: Looking for functional families
-> In the episode [Understandig Pangenomes with BLAST](https://paumayell.github.io/pangenomics/05-manual_pangenome/index.html) we saw that the genes 2603V|GBPINHCM_01420, 515|LHMFJANI_01310, A909|MGIDGNCP_01408, and  NEM316|AOGPFIKH_01528 make the
+> In the episode [Measuring Sequence Similarity](https://paumayell.github.io/pangenomics/04-sequence_distance/index.html) we saw that the genes 2603V|GBPINHCM_01420, 515|LHMFJANI_01310, A909|MGIDGNCP_01408, and  NEM316|AOGPFIKH_01528 make the
 > functional family 30S ribosomal protein. Look for these genes in the `aux_simplex_list`. Are they in the same family? Are there other genes in this family?
 >
 > > ## Solution
