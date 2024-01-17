@@ -9,7 +9,9 @@ objectives:
 - "Create Vietoris-Rips and Alpha complexes from diverse datasets"
 - "Apply persistent homology to obtain barcode and persistence diagrams"
 keypoints:
-- "Ghudi is a TDA tool"
+- "GUDHI is a TDA tool"
+- "GUDHI uses simplextree objects to efficiently store simplicial complexes"
+- "GUDHI allows creating simplicial complexes from datasets, distance matrices, simulated data, and manually"
 math: true
 ---
 ## Introduction to GUDHI and Simplicial Homology
