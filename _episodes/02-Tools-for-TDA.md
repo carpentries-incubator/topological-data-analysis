@@ -3,9 +3,11 @@ title: "Computational Tools for TDA"
 teaching: 30
 exercises: 15
 questions:
-- "How can I computationally manipulate simplex"
+- "How can I computationally manipulate simplicial complexes?"
 objectives:
-- "Operate simplex in a computational environment"
+- "Operate simplicial complexes in a computational environment"
+- "Create Vietoris-Rips and Alpha complexes from diverse datasets"
+- "Apply persistent homology to obtain barcode and persistence diagrams"
 keypoints:
 - "Ghudi is a TDA tool"
 math: true
