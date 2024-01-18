@@ -7,9 +7,13 @@ questions:
 objectives:
 - "Compute the Hamming matrix for applying Persistent Homology."
 - "Construct a median complex to detect 1-holes"
+- "Entender que lo árboles jerárquicos no tienen 1-holes"
 keypoints:
-- "Horizontal Gene Transfer (HGT) is a phenomenon where a bacterium transfers genetic material to another that is not from its family."
+- "Horizontal Gene Transfer (HGT) is a phenomenon where an organism transfers genetic material to another one that it's not its descendent."
+- "HGT can be detected by 1-holes."
 ---
+
+LOS ARBOLES NO TIENEN HOYOS
 
 ### **1. Library**
 To begin, we will import the necessary packages.
