@@ -1,17 +1,18 @@
 ---
-title: "Persistence Simplices  gives rise to Pangenomes"
+title: "Persistence Simplices  gives rise to Gene Families"
 teaching: 30
 exercises: 15
 questions:
 - "How can I apply TDA to describe Pangenomes?"
-- "How can be related persistence simplices to functional families?"
+- "How can be related persistence simplices to gene families?"
 objectives:
 - "Describe Pangenomes using Gudhi"
 - "Finding persistence families of genes"
 - "Explore the change of gene families by varying the distance parameter"
 keypoints:
 - "Pangenomes can be described using TDA"
-- "Persistence simplices are related to the families of a Pangenome"
+- "Persistence simplices are related to the gene families of a Pangenome"
+- "Persistence simplices can be used to find some funtional families"
 ---
 
 ## Persistent approach to pangenomics
