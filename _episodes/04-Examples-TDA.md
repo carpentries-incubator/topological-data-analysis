@@ -1,5 +1,5 @@
 ---
-title: "Finding 1-holes"
+title: "Horizontal Gene Transfer and holes"
 teaching: 30
 exercises: 15
 questions:
