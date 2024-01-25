@@ -4,7 +4,7 @@ teaching: 30
 exercises: 15
 questions:
 - "How can I apply TDA to describe Pangenomes?"
-- "How can be related persistence simplices to gene families?"
+- "How can persistence simplices be related to gene families?"
 objectives:
 - "Describe Pangenomes using Gudhi"
 - "Finding persistence families of genes"
