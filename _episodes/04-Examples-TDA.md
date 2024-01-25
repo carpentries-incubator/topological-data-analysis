@@ -1,9 +1,9 @@
 ---
-title: "Horizontal Gene Transfer and holes"
+title: "Detecting horizontal gene transfer"
 teaching: 30
 exercises: 15
 questions:
-- "How 1-holes are related to HGT?"
+- "How can I detect HGT with TDA?"
 objectives:
 - "Compute the Hamming matrix for applying Persistent Homology."
 - "Construct a median complex to detect 1-holes"
