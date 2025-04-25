@@ -433,7 +433,7 @@ strains_names
 > > ~~~
 >> hamming_matrix_3 = calculate_hamming_matrix(values)  
 >> persistence3, simplex_tree3 = create_complex(hamming_matrix_3)
-> > persistance3  
+> > persistence3  
 >> ~~~
 >> {: .language-python}
 >> persistance3 will store this data. 
