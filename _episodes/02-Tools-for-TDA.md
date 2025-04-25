@@ -180,10 +180,10 @@ This visualization allows for the identification of significant topological feat
 > >  ~~~
 >> #insert 0-simplex (the vertex), 
 >> st.insert([0])
->>  st.insert([1])
+>> st.insert([1])
 >> st.insert([2])
->>  st.insert([3])
->>  st.insert([4])
+>> st.insert([3])
+>> st.insert([4])
 >> ~~~
 >> {: .language-python}   
 >> Step 3: Insert the remaining simplices by setting the filtration time using `st.insert([0, 1], filtration=)`.
@@ -194,7 +194,7 @@ This visualization allows for the identification of significant topological feat
 >> #insert 1-simplex level filtration 2 
 >> st.insert([0, 1], filtration=2)
 >> #insert 1-simplex level filtration 3 
->>  st.insert([2, 1], filtration=3)
+>> st.insert([2, 1], filtration=3)
 >> #insert 1-simplex level filtration 4 
 >> st.insert([2, 1,0], filtration=4)
 >> ~~~
