@@ -61,6 +61,7 @@ import matplotlib.pyplot as plt
 from scipy.cluster.hierarchy import dendrogram, linkage
 import gudhi as gd
 from scipy.spatial.distance import hamming
+from io import BytesIO
 
 import plotly.graph_objs as go
 import networkx as nx
@@ -200,7 +201,11 @@ The total number of genes is 505, the initial percentage of 1s
 is 25%, and the gene gain rate in each generation is 1/505.
 
 ~~~
-population_esc = np.load('https://github.com/carpentries-incubator/topological-data-analysis/raw/gh-pages/files/population_esc.npy')
+url = 'https://github.com/carpentries-incubator/topological-data-analysis/raw/gh-pages/files/population_esc.npy'
+response = requests.get(url)
+response.raise_for_status()
+
+population_esc = np.load(BytesIO(response.content))
 population_esc
 ~~~
 {: .language-python}
@@ -268,7 +273,11 @@ To apply persistent homology to a population that includes horizontal gene
 transfer we first import population_esc_hgt, in which we simulated horizontal 
 transfer among a group of 3 genomes sharing a window of 15 genes.
 ~~~
-population_esc_hgt = np.load('https://github.com/carpentries-incubator/topological-data-analysis/raw/gh-pages/files/population_esc_hgt.npy')
+url = 'https://github.com/carpentries-incubator/topological-data-analysis/raw/gh-pages/files/population_esc_hgt.npy'
+response = requests.get(url)
+response.raise_for_status()
+
+population_esc_hgt = np.load(BytesIO(response.content))
 population_esc_hgt
 ~~~
 {: .language-python}
